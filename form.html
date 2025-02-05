@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Form Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-top: 30px;
+        }
+        form {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #74ebd5;
+            box-shadow: 0 0 5px rgba(116, 235, 213, 0.5);
+        }
+        button {
+            background-color: #74ebd5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #66d4c4;
+        }
+        .form-group label input[type="checkbox"], .form-group label input[type="radio"] {
+            display: inline;
+            width: auto;
+            margin-right: 10px;
+        }
+        .form-group label {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Complete Form Example</h1>
+    <form action="submit_form.php" method="POST" enctype="multipart/form-data">
+        <!-- Text Input -->
+        <div class="form-group">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" name="full_name" placeholder="Enter your full name" required>
+        </div>
+
+        <!-- Email Input -->
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <!-- Phone Number Input -->
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+        </div>
+
+        <!-- Date Input -->
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob">
+        </div>
+
+        <!-- Dropdown Selection -->
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+                <option value="">-- Select Gender --</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message here..."></textarea>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="agree_terms" required> I agree to the terms and conditions
+            </label>
+        </div>
+
+        <!-- Radio Buttons -->
+        <div class="form-group">
+            <label>Subscription Plan</label>
+            <label><input type="radio" name="plan" value="basic" required> Basic</label>
+            <label><input type="radio" name="plan" value="premium"> Premium</label>
+            <label><input type="radio" name="plan" value="pro"> Pro</label>
+        </div>
+
+        <!-- File Upload -->
+        <div class="form-group">
+            <label for="profile-picture">Upload Profile Picture</label>
+            <input type="file" id="profile-picture" name="profile_picture">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve and process form data
+    $full_name = $_POST['full_name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $message = $_POST['message'];
+
+    // Handle file upload
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['profile_picture']['tmp_name'];
+        $file_name = $_FILES['profile_picture']['name'];
+        move_uploaded_file($file_tmp, "uploads/" . $file_name);
+        echo "File uploaded successfully.";
+    } else {
+        echo "File upload failed.";
+    }
+
+    echo "Form submitted successfully. Name: $full_name, Email: $email.";
+} else {
+    echo "Invalid request method.";
+}
+?>
+
+</body>
+</html>
